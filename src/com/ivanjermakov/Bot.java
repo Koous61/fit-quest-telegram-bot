@@ -72,9 +72,39 @@ public class Bot extends TelegramLongPollingBot {
 			return;
 		}
 		
-		//task 2-5 same logic
-		//TODAY BITCH
-		
+		//task 2
+		if (getProgress(message.getUserName()) == User.Progress.TASK2) {
+			if (message.getText().toLowerCase().equals("rsf37pp")) {
+				sendTask3(update);
+				changeProgress(message.getUserName(), User.Progress.TASK3);
+			} else {
+				sendWrongAnswer(update);
+			}
+			return;
+		}
+
+		//task3
+		if (getProgress(message.getUserName()) == User.Progress.TASK3) {
+			if (message.getText().toLowerCase().equals("пухля")) {
+				sendTask4(update);
+				changeProgress(message.getUserName(), User.Progress.TASK4);
+			} else {
+				sendWrongAnswer(update);
+			}
+			return;
+		}
+
+		//task4
+		if (getProgress(message.getUserName()) == User.Progress.TASK4) {
+			if (message.getText().toLowerCase().equals("зодиак")) {
+				endGame(update);
+				changeProgress(message.getUserName(), User.Progress.END);
+			} else {
+				sendWrongAnswer(update);
+			}
+			return;
+		}
+
 		
 	}
 	
@@ -177,7 +207,101 @@ public class Bot extends TelegramLongPollingBot {
 			e.printStackTrace();
 		}
 	}
-	
+
+	private void sendTask3(Update update) {
+		try {
+			SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
+
+			sendMessage.setText("Я хотел встретить тебя в аудитории и передать ключ к Биллу лично, но он следил за мной, и поэтому я оставил там новый шифр, " +
+					"внутри которого был код. Это было необходимо, ведь, оставь я последний ключ, этот Одноглазый обязательно бы нас поймал и мы бы проиграли…");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendMessage.setText("Я рад, что ты справился, но ликовать ещё рано. Вот новая инструкция для третьего ключа.");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendMessage.setText("Тук-тук-тук… Прислушайся, и найдёшь ответ");
+			sendMessage(sendMessage);
+			sendDocument(update.getMessage().getChatId(), "sound/What.mp3");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void sendTask4 (Update update) {
+		try {
+			SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
+
+			sendMessage.setText("Билл: Ха-ха-ха! Неужели вы и правда надеялись, что я не найду вас здесь? Какие вы легковерные! И как же вы собираетесь " +
+					"меня остановить, если неспособны даже спрятаться? Я смеюсь над вашей тупостью! ");
+			sendMessage(sendMessage);
+			sendDocument(update.getMessage().getChatId(), "images/gif1.gif");
+			Thread.sleep(5000);
+
+			sendMessage.setText("Чёрт! Он нашёл нас! Теперь здесь небезопасно…");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendMessage.setText("Нам нужно встретиться. Последний ключ и с Биллом Шифром будет покончено! Новая инструкция для тебя. Прошу, поторопись!");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendMessage.setText("Огромная зала, но места здесь мало:\n" +
+					"Людей тут полно от утра до заката. \n" +
+					"Сюда поспеши, а не то опоздаешь.\n" +
+					"Голодным ходить неприятно, ты знаешь!..\n");
+			sendMessage(sendMessage);
+			sendDocument(update.getMessage().getChatId(), "images/pic3.jpg");
+			Thread.sleep(5000);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void endGame(Update update) {
+		try {
+			SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
+
+			sendMessage.setText("Билл: Глупые люди! От меня нет спасения! Я всегда буду существовать, даже если вы будете сражаться!");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendMessage.setText("Диппер: В этой битве ты проиграл и сейчас я сотру тебя из системы! Твой вирус теперь будет против тебя!");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendMessage.setText("Билл: Помни, Диппер: реальность — иллюзия, вселенная — голограмма, скупай золото, пока! ");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendMessage.setText("Диппер: Исчезни, демон!");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendDocument(update.getMessage().getChatId(), "images/pic4.jpg");
+			Thread.sleep(5000);
+
+			sendMessage.setText("Мы… Победили? Да, ты сделал это! Теперь Одноглазый ещё какое-то время не потревожит нас, а у меня будет время найти способ навсегда избавиться от него.");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+
+			sendMessage.setText("Спасибо тебе, за твою помощь! Ты справился с Шифром, и за это я хочу отблагодарить тебя. Я вышлю тебе последнюю инструкцию — карту, идя по которой ты можешь встретиться со мной и получить награду за твою работу. Встретимся на назначенном месте!");
+			sendMessage(sendMessage);
+			sendDocument(update.getMessage().getChatId(), "images/pic5.jpg");
+			Thread.sleep(5000);
+
+			sendMessage.setText("Жёлтая стена надвигается… Ничто не укроется…\n" +
+					"До скорой встречи.\n");
+			sendMessage(sendMessage);
+			Thread.sleep(5000);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void addUser(String userName) {
 		if (!containsWithName(userName)) {
 			users.add(new User(userName));
